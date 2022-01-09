@@ -1,0 +1,48 @@
+openapi: 3.0.2
+info:
+  title: Hello
+  description: ユーザ名を与えると挨拶を返してくれるAPI
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: hello
+  description: ユーザに挨拶を返すAPI
+paths:
+  /hello:
+    get:
+      tags:
+      - hello
+      description: ユーザに挨拶する。
+      operationId: getHello
+      parameters:
+      - name: userName
+        in: query
+        description: ユーザ名
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      x-swagger-router-controller: Hello
+components:
+  schemas:
+    inline_response_200:
+      type: object
+      properties:
+        HelloUser:
+          type: string
+          example: "Hello, userName"
+      example:
+        HelloUser: "Hello, userName"
